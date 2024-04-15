@@ -1,0 +1,19 @@
+{% extends 'message/base.html' %}
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    <div class="card align-items-center">
+      <div class="card-header">
+        {% if error %}
+        <h4 class="mb-2">Неверный ключ верификации</h4>
+        {% else %}
+        <h4 class="mb-2">Введите ключ для верификации</h4>
+        {% endif %}
+      </div>
+      <div class="card-body">
+        <input name="key" class="form-control" />
+        <button  class="btn btn-success" type="submit">Подтвердить</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}

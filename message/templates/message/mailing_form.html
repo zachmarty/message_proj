@@ -1,0 +1,28 @@
+{% extends 'message/base.html' %}
+{% block content %}
+  <div class="col-12">
+    <div class="row text-center">
+      <form method="post" enctype="multipart/form-data">
+        <div class="row">
+          <div class="col-6">
+            <div class="card">
+              <div class="card-header">Параметры рассылки {{ mailing.first_start }}</div>
+              <div class="card-body">
+                {% csrf_token %}
+                {{ form.as_p }}
+                  <button type="submit" class="btn btn-primary">Сохранить</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            {{ formset.management_form }}
+            {% for form in formset.forms %}
+              <div class="card">{{ form.as_p }}</div>
+            {% endfor %}
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

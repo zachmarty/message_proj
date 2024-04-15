@@ -1,0 +1,94 @@
+{% extends 'message/base.html' %}
+{% block content %}
+  <div class="row text-center">
+    {% if user.is_authenticated %}
+      {% for mailing in mailing_list %}
+        <div class="col-6">
+          <div class="card mb-4 box-shadow">
+            <div class="card-header">
+              <h3 class="my-0 font-weight-normal">{{ mailing.first_start|title }}</h3>
+            </div>
+            <div class="card-body">
+              <h5>
+                Статус:{% if mailing.status %}
+                  Запущена
+                {% else %}
+                  Остановлена
+                {% endif %}
+              </h5>
+              <h5>Интервал: {{ mailing.period }}</h5>
+            </div>
+            <div class="card-footer">
+              <a href="{% url 'message:mailing_update'  mailing.id  %}" class="btn btn-outline-primary">Изменить параметры рассылки</a>
+            </div>
+          </div>
+          {% if message %}
+            <div class="card">
+              <div class="card-header">
+                <h3>{{ message.theme }}</h3>
+              </div>
+              <div class="card-body">
+                <h5>{{ message.message }}</h5>
+              </div>
+              <div class="card-footer">
+                <a href="{% url 'message:message_update'  message.id %}" class="btn btn-outline-primary">Редактировать сообщение</a>
+              </div>
+            </div>
+          {% else %}
+            <div class="card">
+              <div class="card-body">
+                <a href="{% url 'message:message_create' %}" class="btn btn-outline-primary">Добавить сообщение</a>
+              </div>
+            </div>
+          {% endif %}
+          {% if mailing.status %}
+            <a href="{% url 'message:break' %}" class="btn btn-outline-danger" style="margin-top: 2%;">Приостановить рассылку</a>
+          {% else %}
+            <a href="{% url 'message:start' %}" class="btn btn-outline-success" style="margin-top: 2%;">Запустить рассылку</a>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <div class="col-md-6">
+        {% for client in clients %}
+          <div class="card">
+            <div class="card-header">
+              <h3>{{ client.full_name }}</h3>
+            </div>
+            <div class="card-body row" style="vertical-align: middle;">
+              <div class="col-6" style="vertical-align: middle;">
+                <h5>{{ client.email }}</h5>
+                <h5>{{ client.comment }}</h5>
+              </div>
+
+              <div class="col-6" style="text-align: center; vertical-align: middle;">
+                {% if client.is_active %}
+                  {% load static %}<img src="{% static 'images/green_tick.png' %}" class="img-fluid" style="height: 25%;" />
+                {% else %}
+                  {% load static %}<img src="{% static 'images/red_cross.png' %}" class="img-fluid" style="height: 25%; vertical-align:middle;" />
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="card-footer">
+              <div class="row">
+                <a href="{% url 'message:client_update'  client.id %}" class="col-6 btn btn-outline-primary">Редактировать</a>
+                <a href="{% url 'message:client_delete'  client.id  %}" class="col-6 btn btn-outline-danger">Удалить</a>
+              </div>
+            </div>
+          </div>
+          <br />
+        {% endfor %}
+        <div class="card">
+          <div class="card-body">
+            <a href="{% url 'message:client_create' %}" class="btn btn-outline-primary">Добавить клиента</a>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="card align-items-center">
+        <h4 class="mb-2">Для доступа к данной странице необходимо авторизоваться</h4>
+        <a href="{% url 'users:login' %}" class="btn btn-outline-primary">Войти</a>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

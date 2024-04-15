@@ -1,0 +1,30 @@
+{% extends 'message/base.html' %}
+{% block content %}
+  <div class="row">
+    <div class="col-6">
+      <h1 class="display-6">Время отправки</h1>
+    </div>
+    <div class="col-6">
+      <h1 class="display-6">Статус</h1>
+    </div>
+  </div>
+  {% for attempt in attempt_list %}
+    <div class="card">
+      <div class="card-body row">
+        <div class="col-6">
+          <h1 class="display-6">{{ attempt.last_try }}</h1>
+        </div>
+        <div class="col-6">
+          <h1 class="display-6">
+            {% if attempt.response %}
+              Сообщения отправлены
+            {% else %}
+              Ошибка
+            {% endif %}
+          </h1>
+        </div>
+      </div>
+    </div>
+    <br>
+  {% endfor %}
+{% endblock %}

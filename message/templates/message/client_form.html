@@ -1,0 +1,25 @@
+{% extends 'message/base.html' %}
+{% block content %}
+  <div class="col-12">
+    <div class="row text-center">
+      <form method="post" enctype="multipart/form-data">
+        <div class="row">
+          <div class="col-6">
+            <div class="card">
+              <div class="card-header">Клиент</div>
+              <div class="card-body">
+                {% csrf_token %}
+                {{ form.as_p }}
+                {% if client %}
+                  <button type="submit" class="btn btn-primary">Сохранить</button>
+                {% else %}
+                  <button type="submit" class="btn btn-primary">Создать</button>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
